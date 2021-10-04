@@ -4,7 +4,7 @@ import 'package:zanshin/styles/app_colors.dart';
 class AppThemes {
   const AppThemes();
 
-  get lightTheme => ThemeData(
+  static lightTheme() => ThemeData(
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
           primary: AppColors.primary,
@@ -14,7 +14,7 @@ class AppThemes {
         ),
       );
 
-  get darkTheme => ThemeData(
+  static darkTheme() => ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: AppColors.darkBackground,
         canvasColor: AppColors.darkBackground,

@@ -15,7 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.3
-  flutter_bloc: ^7.2.0 # state management and DI
+  flutter_bloc: ^7.3.0 # state management and DI
   flutter_launcher_icons: ^0.9.2
   flutter_vibrate: ^1.1.0
   font_awesome_flutter: ^9.1.0

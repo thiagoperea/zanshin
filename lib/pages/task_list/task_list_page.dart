@@ -135,7 +135,14 @@ class TaskListRoot extends StatelessWidget {
         inputLabel: "Descrição",
         confirmButtonLabel: "Adicionar",
         onConfirmClick: (String inputValue) {
-          final task = Task.newTask(inputValue);
+          Task? task;
+
+          if (inputValue.isNotEmpty) {
+            task = Task.newTask(inputValue);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível adicionar a tarefa :(")));
+          }
+
           Navigator.pop(context, task);
         },
       ),
@@ -143,8 +150,6 @@ class TaskListRoot extends StatelessWidget {
 
     if (createdTask != null) {
       context.read<TaskListCubit>().saveTask(createdTask);
-    } else {
-      ///TODO: show dialog that it's not possible to add task
     }
   }
 }

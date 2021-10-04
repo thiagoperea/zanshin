@@ -12,11 +12,17 @@ class PomodoroCubit extends Cubit<PomodoroState> {
   Timer _timer = Timer(Duration.zero, () {});
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  PomodoroCubit(PomodoroState state) : super(state);
+  PomodoroCubit({required int selectedAlarm}) : super(PomodoroState()) {
+    _selectedAlarmIdx = selectedAlarm;
+  }
 
-  factory PomodoroCubit.empty() => PomodoroCubit(PomodoroState.empty());
-
-  factory PomodoroCubit.fromTask(Task data, int selectedAlarm) => PomodoroCubit(PomodoroState.fromTask(data)).._selectedAlarmIdx = selectedAlarm;
+  void setTask(Task task) => emit(state.copyWith(
+        state: PomodoroStates.stop,
+        taskData: task,
+        currentSection: 1,
+        timeRemaining: task.workTimeSecs,
+        progressRemaining: 1.0,
+      ));
 
   @override
   Future<void> close() {
@@ -176,23 +182,13 @@ class PomodoroState {
   int timeRemaining;
   double progressRemaining;
 
-  PomodoroState({required this.state, required this.taskData, required this.currentSection, required this.timeRemaining, required this.progressRemaining});
-
-  factory PomodoroState.empty() => PomodoroState(
-        state: PomodoroStates.stop,
-        taskData: null,
-        currentSection: 0,
-        timeRemaining: 0,
-        progressRemaining: 1,
-      );
-
-  factory PomodoroState.fromTask(Task task) => PomodoroState(
-        state: PomodoroStates.stop,
-        taskData: task,
-        currentSection: 1,
-        timeRemaining: task.workTimeSecs,
-        progressRemaining: 1.0,
-      );
+  PomodoroState({
+    this.state = PomodoroStates.stop,
+    this.taskData,
+    this.currentSection = 0,
+    this.timeRemaining = 0,
+    this.progressRemaining = 1,
+  });
 
   bool hasTask() => taskData != null;
 

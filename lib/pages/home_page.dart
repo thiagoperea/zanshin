@@ -9,6 +9,8 @@ import 'package:zanshin/pages/pomodoro/pomodoro_page.dart';
 import 'package:zanshin/pages/task_list/task_list_page.dart';
 
 class HomePage extends StatefulWidget {
+  static const String route = '/home';
+
   const HomePage({Key? key}) : super(key: key);
 
   @override

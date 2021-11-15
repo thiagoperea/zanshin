@@ -40,18 +40,15 @@ class PomodoroControls extends StatelessWidget {
     );
   }
 
-  void _onEditClick(BuildContext context) {
+  Future<void> _onEditClick(BuildContext context) async {
     final Task? taskToUpdate = context.read<PomodoroCubit>().state.taskData;
 
     if (taskToUpdate != null) {
       context.read<PomodoroCubit>().stopTask();
 
-      var route = MaterialPageRoute(builder: (context) => TaskSettingsPage(taskToUpdate));
-      Navigator.of(context).push(route).then((wasEdited) {
-        if (wasEdited) {
-          context.read<PomodoroCubit>().updateTask(taskToUpdate);
-        }
-      });
+      await Navigator.of(context).pushNamed(TaskSettingsPage.route, arguments: taskToUpdate);
+
+      context.read<PomodoroCubit>().updateTask(taskToUpdate);
     }
   }
 

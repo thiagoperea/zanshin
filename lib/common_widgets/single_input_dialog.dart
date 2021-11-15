@@ -34,6 +34,7 @@ class _SingleInputDialogState extends State<SingleInputDialog> {
           child: TextField(
             controller: _controller,
             keyboardType: widget.textInputType,
+            maxLength: 30,
             decoration: InputDecoration(
               labelText: widget.inputLabel,
               border: const OutlineInputBorder(),

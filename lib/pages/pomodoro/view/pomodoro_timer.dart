@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:zanshin/pages/pomodoro/pomodoro_cubit.dart';
 import 'package:zanshin/styles/app_colors.dart';
-import 'package:zanshin/styles/app_text_styles.dart';
 
 class PomodoroTimer extends StatelessWidget {
   const PomodoroTimer({Key? key}) : super(key: key);
@@ -15,9 +14,10 @@ class PomodoroTimer extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    final double radiusSize = min(screenSize.width * 0.6, screenSize.height * 0.6);
+    final double radiusSize = min(screenSize.width * 0.5, screenSize.height * 0.5);
     final double lineWidth = radiusSize * 0.05;
-    final fontSize = radiusSize * 0.18;
+    final pomodoroTextSize = radiusSize * 0.18;
+    final descriptionTextSize = radiusSize * 0.09;
 
     return BlocBuilder<PomodoroCubit, PomodoroState>(
       builder: (context, state) => CircularPercentIndicator(
@@ -34,11 +34,11 @@ class PomodoroTimer extends StatelessWidget {
           children: [
             Text(
               _getFormattedTime(state.timeRemaining),
-              style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: pomodoroTextSize, fontFamily: "Nunito", fontWeight: FontWeight.bold),
             ),
             Text(
               _getStateDescription(state.state),
-              style: AppTextStyles.smallSizeBold,
+              style: TextStyle(fontSize: descriptionTextSize, fontFamily: "Nunito", fontWeight: FontWeight.bold),
             ),
           ],
         ),

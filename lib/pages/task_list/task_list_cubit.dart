@@ -3,6 +3,8 @@ import 'package:zanshin/data/datasource/database/dao/task_dao.dart';
 import 'package:zanshin/data/model/task.dart';
 
 class TaskListCubit extends Cubit<TaskListState> {
+  Task? _lastSavedTask;
+
   TaskListCubit() : super(TaskListState(state: TaskListStates.idle));
 
   final TaskDao _dao = TaskDao();
@@ -33,6 +35,7 @@ class TaskListCubit extends Cubit<TaskListState> {
       emit(state.copyWith(state: TaskListStates.saveTaskLoading));
 
       await _dao.saveTask(task);
+      _lastSavedTask = task;
       emit(state.copyWith(state: TaskListStates.saveTaskSuccess));
     } on Exception catch (error) {
       emit(
@@ -49,6 +52,11 @@ class TaskListCubit extends Cubit<TaskListState> {
       emit(state.copyWith(state: TaskListStates.deleteTaskLoading));
 
       await _dao.deleteTask(task);
+
+      if (task == _lastSavedTask) {
+        _lastSavedTask = null;
+      }
+
       emit(state.copyWith(state: TaskListStates.deleteTaskSuccess));
     } on Exception catch (error) {
       emit(
@@ -59,6 +67,8 @@ class TaskListCubit extends Cubit<TaskListState> {
       );
     }
   }
+
+  Task? getLastSavedTask() => _lastSavedTask;
 }
 
 class TaskListState {

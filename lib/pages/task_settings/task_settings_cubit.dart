@@ -8,27 +8,22 @@ class TaskSettingsCubit extends Cubit<TaskSettingsState> {
 
   TaskSettingsCubit(Task task) : super(TaskSettingsState(state: TaskSettingsStates.idle, task: task));
 
-  Future<void> updateWorkTime(String newWorkTime) async {
-    _updateTask(() => state.task.workTimeSecs = int.parse(newWorkTime).minToSec());
+  void setDescription(String? newValue) {
+    if (newValue != null) {
+      state.task.description = newValue;
+      emit(state.copyWith());
+    }
   }
 
-  Future<void> updateShortBreak(String newShortBreak) async {
-    _updateTask(() => state.task.shortBreakSecs = int.parse(newShortBreak).minToSec());
-  }
-
-  Future<void> updateLongBreak(String newLongBreak) async {
-    _updateTask(() => state.task.longBreakSecs = int.parse(newLongBreak).minToSec());
-  }
-
-  Future<void> updateSectionCount(String newSectionCount) async {
-    _updateTask(() => state.task.sections = int.parse(newSectionCount));
-  }
-
-  Future<void> _updateTask(Function taskUpdate) async {
+  Future<void> updateTask(int workTime, int shortBreak, int longBreak, int sectionCount) async {
     try {
       emit(state.copyWith(state: TaskSettingsStates.loading));
 
-      taskUpdate();
+      state.task.workTimeSecs = workTime.minToSec();
+      state.task.shortBreakSecs = shortBreak.minToSec();
+      state.task.longBreakSecs = longBreak.minToSec();
+      state.task.sections = sectionCount;
+
       await _dao.updateTask(state.task);
 
       emit(state.copyWith(state: TaskSettingsStates.success));

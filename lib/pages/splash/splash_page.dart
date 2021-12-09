@@ -5,6 +5,8 @@ import 'package:zanshin/pages/home_page.dart';
 import 'package:zanshin/pages/splash/splash_cubit.dart';
 
 class SplashPage extends StatefulWidget {
+  static const String route = '/';
+
   const SplashPage({Key? key}) : super(key: key);
 
   @override
@@ -28,8 +30,7 @@ class _SplashPageState extends State<SplashPage> {
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           if (state is SplashLoaded) {
-            Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (ctx) => HomePage()));
+            Navigator.popAndPushNamed(context, HomePage.route);
           }
         },
         child: Scaffold(

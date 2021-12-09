@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zanshin/common_widgets/one_button_dialog.dart';
 import 'package:zanshin/common_widgets/simple_loading_dialog.dart';
-import 'package:zanshin/common_widgets/single_input_dialog.dart';
 import 'package:zanshin/common_widgets/title_bar.dart';
 import 'package:zanshin/data/model/task.dart';
 import 'package:zanshin/pages/task_list/task_list_cubit.dart';
 import 'package:zanshin/pages/task_list/view/list_container.dart';
+import 'package:zanshin/pages/task_settings/task_settings_page.dart';
 
 class TaskListPage extends StatefulWidget {
   final Function onTaskSelected;
@@ -44,7 +44,7 @@ class _TaskListPageState extends State<TaskListPage> {
         break;
       case TaskListStates.saveTaskSuccess:
         Navigator.pop(context);
-        context.read<TaskListCubit>().loadTasks();
+        _openTaskSettingsPage(context);
         break;
       case TaskListStates.saveTaskError:
         Navigator.pop(context);
@@ -97,6 +97,16 @@ class _TaskListPageState extends State<TaskListPage> {
       builder: (context) => const OneButtonDialog(title: "Atenção", message: "Erro ao excluir tarefa!"),
     );
   }
+
+  void _openTaskSettingsPage(BuildContext context) async {
+    Task? lastTask = _taskListCubit.getLastSavedTask();
+
+    if (lastTask != null) {
+      await Navigator.of(context).pushNamed(TaskSettingsPage.route, arguments: lastTask);
+
+      _taskListCubit.loadTasks();
+    }
+  }
 }
 
 class TaskListRoot extends StatelessWidget {
@@ -128,28 +138,7 @@ class TaskListRoot extends StatelessWidget {
   }
 
   void _onAddClick(BuildContext context) async {
-    final Task? createdTask = await showDialog<Task?>(
-      context: context,
-      builder: (context) => SingleInputDialog(
-        title: "Nova tarefa",
-        inputLabel: "Descrição",
-        confirmButtonLabel: "Adicionar",
-        onConfirmClick: (String inputValue) {
-          Task? task;
-
-          if (inputValue.isNotEmpty) {
-            task = Task.newTask(inputValue);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Não foi possível adicionar a tarefa :(")));
-          }
-
-          Navigator.pop(context, task);
-        },
-      ),
-    );
-
-    if (createdTask != null) {
-      context.read<TaskListCubit>().saveTask(createdTask);
-    }
+    Task newTask = Task.newTask("SEM DESCRIÇÃO");
+    context.read<TaskListCubit>().saveTask(newTask);
   }
 }

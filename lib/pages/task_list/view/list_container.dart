@@ -49,13 +49,10 @@ class ListContainer extends StatelessWidget {
   bool _shouldReloadPage(TaskListStates taskState) =>
       taskState == TaskListStates.taskListLoading || taskState == TaskListStates.taskListSuccess || taskState == TaskListStates.taskListError;
 
-  _onEditClick(BuildContext context, Task task) {
-    var route = MaterialPageRoute(builder: (context) => TaskSettingsPage(task));
-    Navigator.of(context).push(route).then((wasEdited) {
-      if (wasEdited) {
-        context.read<TaskListCubit>().loadTasks();
-      }
-    });
+  Future<void> _onEditClick(BuildContext context, Task task) async {
+    await Navigator.of(context).pushNamed(TaskSettingsPage.route, arguments: task);
+
+    context.read<TaskListCubit>().loadTasks();
   }
 
   _onDeleteClick(BuildContext context, task) => context.read<TaskListCubit>().deleteTask(task);

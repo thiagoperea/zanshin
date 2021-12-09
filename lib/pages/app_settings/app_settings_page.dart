@@ -18,20 +18,35 @@ class AppSettingsPage extends StatelessWidget {
       builder: (context, state) => Scaffold(
         body: SafeArea(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
               const TitleBar(title: "Configurações"),
-              Column(
-                children: [
-                  SwitchListTile(
-                    title: const Text("Tema noturno", style: AppTextStyles.verySmallSize),
-                    value: state.isNightMode,
-                    activeColor: AppColors.primary,
-                    onChanged: (isChecked) => _onNightModeSwitch(context, isChecked),
-                  ),
-                  const SettingsDivider(),
-                  SettingsItem("Som de alarme", "Alarme ${state.selectedAlarm + 1}", () => _onAlarmPressed(context, state.selectedAlarm)),
-                  const SettingsDivider(),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SwitchListTile(
+                      title: const Text("Tema noturno", style: AppTextStyles.smallSize),
+                      value: state.isNightMode,
+                      activeColor: AppColors.primary,
+                      onChanged: (isChecked) => _onNightModeSwitch(context, isChecked),
+                    ),
+                    const SettingsDivider(),
+                    SettingsItem(
+                      "Som de alarme",
+                      "Alarme ${state.selectedAlarm + 1}",
+                      () => _onAlarmPressed(context, state.selectedAlarm),
+                    ),
+                    const SettingsDivider(),
+                    Spacer(),
+                    Text(
+                      "Versão 1.1.0",
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(60)),
+                    ),
+                    SizedBox(height: 16),
+                  ],
+                ),
               )
             ],
           ),
@@ -126,8 +141,8 @@ class SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title, style: AppTextStyles.verySmallSize),
-      trailing: Text(value, style: AppTextStyles.verySmallSizeBold),
+      title: Text(title, style: AppTextStyles.smallSize),
+      trailing: Text(value, style: AppTextStyles.smallSizeBold),
       onTap: () => onClick(),
     );
   }

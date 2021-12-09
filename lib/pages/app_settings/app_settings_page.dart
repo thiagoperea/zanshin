@@ -41,7 +41,7 @@ class AppSettingsPage extends StatelessWidget {
                     const SettingsDivider(),
                     Spacer(),
                     Text(
-                      "Versão 1.1.0",
+                      "Versão 1.1.1",
                       style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withAlpha(60)),
                     ),
                     SizedBox(height: 16),

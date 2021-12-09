@@ -1,4 +1,5 @@
 {
   "app_name": "zanshin",
-  "version": "1.1.1"
+  "version": "1.1.0",
+  "package_name": "zanshin"
 }

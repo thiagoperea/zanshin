@@ -25,7 +25,7 @@ class ZanshinApp extends StatelessWidget {
           theme: AppThemes.lightTheme(),
           darkTheme: AppThemes.darkTheme(),
           themeMode: state.isNightMode ? ThemeMode.dark : ThemeMode.light,
-          initialRoute: '/',
+          initialRoute: SplashPage.route,
           routes: {
             SplashPage.route: (context) => const SplashPage(),
             HomePage.route: (context) => const HomePage(),

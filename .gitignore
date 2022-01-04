@@ -30,7 +30,7 @@
 lib/generated_plugin_registrant.dart
 
 # Windows related
-windows/flutter/generated_plugin
+windows/flutter/generated_plugin*.*
 
 # Symbolication related
 app.*.symbols

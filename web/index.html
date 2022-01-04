@@ -16,27 +16,14 @@
     <title>zanshin</title>
     <link href="manifest.json" rel="manifest">
 
-    <style>
-      .s-loading {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-  
-      .s-centered {
-        width: 50vw;
-      }
-
-    </style>
-
+  <link rel="stylesheet" type="text/css" href="splash/style.css">
 </head>
-<body style="overflow: hidden;">
-
-<div class="s-loading" id="loading-div">
-    <img class="s-centered" src="./assets/loading.gif"/>
-</div>
+<body>
+  <picture id="splash">
+    <source srcset="splash/img/app_icon.png" media="(prefers-color-scheme: light) or (prefers-color-scheme: no-preference)">
+    <source srcset="splash/img/app_icon.png" media="(prefers-color-scheme: dark)">
+    <img class="center" aria-hidden="true" src="splash/img/app_icon.png" />
+  </picture>
 
 <!-- This script installs service_worker.js to provide PWA functionality to
      application. For more information, see:
@@ -106,19 +93,6 @@
     }
 
 
-
-</script>
-
-<script>
-  window.onload = () => {
-    setTimeout(() => {
-      var loadingDiv = document.getElementById("loading-div");
-
-      if (loadingDiv != null) {
-        loadingDiv.remove();
-      }
-    }, 10 * 1000);
-  }
 
 </script>
 
